@@ -54,7 +54,7 @@ std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
         }
         else
         {
-            std::cout << "The date is entered incorrectly, try again (dd/mm/gggg)!\n";
+            std::cout << "The date is entered incorrectly, try again (dd/mm/gggg)\n";
         }
     }
 
