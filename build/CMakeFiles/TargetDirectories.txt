@@ -1,0 +1,3 @@
+D:/ToDoList/build/CMakeFiles/ToDoList.dir
+D:/ToDoList/build/CMakeFiles/ALL_BUILD.dir
+D:/ToDoList/build/CMakeFiles/ZERO_CHECK.dir
