@@ -29,7 +29,7 @@ std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     descriptionTask = descriptionTask.substr(0, 255);
 
     std::string dateTask{};
-    std::regex regular("([0-2][0-9]|3[0-1])/(0[1-9]|1[1-2])/(2[0-9][0-9][0-9])");
+    std::regex regular("([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(2[0-9][0-9][0-9])");
     std::regex regularFeb("([0-2][0-9])/(02)/(2[0-9][0-9][0-9])");
 
     while (true)
