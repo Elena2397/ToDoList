@@ -12,22 +12,8 @@ struct ToDoList
     std::string date{};
 };
 
-std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
+std::string checkedDate()
 {
-    // std::cout << "Enter numner task: ";
-    // int numberTask{};
-    // std::cin >> numberTask;
-
-    std::cout << "Enter name task: ";
-    std::string nameTask{};
-    std::getline(std::cin >> std::ws, nameTask);
-    nameTask = nameTask.substr(0, 25);
-
-    std::cout << "Enter description task: ";
-    std::string descriptionTask{};
-    std::getline(std::cin >> std::ws, descriptionTask);
-    descriptionTask = descriptionTask.substr(0, 255);
-
     std::string dateTask{};
     std::regex regular("([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(2[0-9][0-9][0-9])");
     std::regex regularFeb("([0-2][0-9])/(02)/(2[0-9][0-9][0-9])");
@@ -57,7 +43,27 @@ std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
             std::cout << "The date is entered incorrectly, try again (dd/mm/gggg)\n";
         }
     }
+    return dateTask;
+}
 
+std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
+{
+    // std::cout << "Enter numner task: ";
+    // int numberTask{};
+    // std::cin >> numberTask;
+
+    std::cout << "Enter name task: ";
+    std::string nameTask{};
+    std::getline(std::cin >> std::ws, nameTask);
+    nameTask = nameTask.substr(0, 25);
+
+    std::cout << "Enter description task: ";
+    std::string descriptionTask{};
+    std::getline(std::cin >> std::ws, descriptionTask);
+    descriptionTask = descriptionTask.substr(0, 255);
+
+    std::string dateTask = checkedDate();
+    
     int id = arrayToDoList.size();
     id++;
 
@@ -66,9 +72,69 @@ std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     return arrayToDoList;
 };
 
-void updateTaskToDoList()
+void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 {
-    std::cout << "Update\n";
+    while (true)
+    {
+        std::cout << "Enter the task id to update (if you want to log out, enter: -1): ";
+        int id{};
+        std::cin >> id;
+        while (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Enter an integer value: ";
+            std::cin >> id;
+        }
+        if (id >= 0 && id <= arrayToDoList.size())
+        {
+            for (int i{0}; i < arrayToDoList.size(); ++i)
+            {
+                if (id == arrayToDoList[i].number)
+                {
+                    while (true)
+                    {
+                        std::cout << "Enter the name of the field to be changed (name, descriptiod, date). If you want to log out, enter exit: ";
+                        std::string nameField{};
+                        std::cin >> nameField;
+                        if (nameField == "name")
+                        {
+                            std::cout << "Enter new name task: ";
+                            std::string nameTask{};
+                            std::getline(std::cin >> std::ws, nameTask);
+
+                            arrayToDoList[i].name = nameTask;
+                        }
+                        else if (nameField == "descriptiod")
+                        {
+                            std::cout << "Enter new description task: ";
+                            std::string descriptionTask{};
+                            std::getline(std::cin >> std::ws, descriptionTask);
+
+                            arrayToDoList[i].description = descriptionTask;
+                        }
+                        else if (nameField == "date")
+                        {
+                            std::string dateTask = checkedDate();
+                            arrayToDoList[i].date = dateTask;
+                        }
+                        else if (nameField == "exit")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            std::cout << "You entered the wrong field name. You need to enter: name, descriptiod, date. If you want to log out, enter exit.\n";
+                        }
+                    }
+                }
+            }
+        }
+        if(id == -1)
+        {
+            break;
+        }
+    }
 };
 
 std::vector<ToDoList> deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
@@ -140,11 +206,11 @@ std::vector<ToDoList> deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                             arrayToDoList[j].number = j + 1;
                         }
                     }
-                break;
+                    break;
                 }
             }
 
-            if(nameTask == "exit")
+            if (nameTask == "exit")
             {
                 break;
             }
@@ -152,11 +218,11 @@ std::vector<ToDoList> deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
             if (size == arrayToDoList.size())
             {
                 std::cout << "There is no such taxi name. Repeat the name or press enter: exit\n";
-            } else
+            }
+            else
             {
                 break;
             }
-
         }
     }
 
@@ -201,7 +267,7 @@ int main()
         }
         else if (nameTask == "update")
         {
-            updateTaskToDoList();
+            updateTaskToDoList(arrayToDoList);
         }
         else if (nameTask == "delete")
         {
@@ -220,6 +286,7 @@ int main()
             std::cout << "The wrong command was entered\n";
             showToDoList();
         }
+        std:: cout << "The task has been completed successfully!\n\n";
     };
 
     return 0;
