@@ -46,7 +46,7 @@ std::string checkedDate()
     return dateTask;
 }
 
-std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
+void addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 {
     // std::cout << "Enter numner task: ";
     // int numberTask{};
@@ -63,13 +63,11 @@ std::vector<ToDoList> addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     descriptionTask = descriptionTask.substr(0, 255);
 
     std::string dateTask = checkedDate();
-    
+
     int id = arrayToDoList.size();
     id++;
 
     arrayToDoList.push_back({id, nameTask, descriptionTask, dateTask});
-
-    return arrayToDoList;
 };
 
 void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
@@ -130,14 +128,14 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                 }
             }
         }
-        if(id == -1)
+        if (id == -1)
         {
             break;
         }
     }
 };
 
-std::vector<ToDoList> deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
+void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 {
     std::string deleteName{};
     std::cout << "Enter name for delete(id or name): ";
@@ -225,15 +223,133 @@ std::vector<ToDoList> deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
             }
         }
     }
-
-    return arrayToDoList;
 };
 
 void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 {
-    for (auto e : arrayToDoList)
+    while (true)
     {
-        std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+        std::cout << "Enter the date and the comparison operator.\n";
+
+        std::cout << "Enter comparison operator ('=','<','>','<=','>=', '* - all tasks', exit): ";
+        std::string comparisonOperator{};
+        std::getline(std::cin >> std::ws, comparisonOperator);
+
+        if (comparisonOperator == "*")
+        {
+            for (auto e : arrayToDoList)
+            {
+                std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+            }
+        }
+        else if (comparisonOperator == "exit")
+        {
+            break;
+        }
+        else
+        {
+            std::string dateTask = checkedDate();
+
+            int day = std::stoi(dateTask.substr(0, 2));
+            int month = std::stoi(dateTask.substr(3, 2));
+            int year = std::stoi(dateTask.substr(6, 4));
+
+            if (comparisonOperator == "=")
+            {
+                int count{0};
+                for (auto e : arrayToDoList)
+                {
+                    if (year == std::stoi(e.date.substr(6, 4)) && month == std::stoi(e.date.substr(3, 4)) && day == std::stoi(e.date.substr(0, 2)))
+                    {
+                        std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+                    }
+                    else
+                    {
+                        count++;
+                    }
+                }
+                if (count == arrayToDoList.size())
+                {
+                    std::cout << "The task was not found.\n";
+                }
+            }
+            else if (comparisonOperator == "<")
+            {
+                int count{0};
+                for (auto e : arrayToDoList)
+                {
+                    if ((day + month * 31 + year * 365) > (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
+                    {
+                        std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+                    }else
+                    {
+                        count++;
+                    }
+                }
+                if (count == arrayToDoList.size())
+                {
+                    std::cout << "The task was not found.\n";
+                }
+            }
+            else if (comparisonOperator == ">")
+            {
+                int count{0};
+                for (auto e : arrayToDoList)
+                {
+                    if ((day + month * 31 + year * 365) < (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
+                    {
+                        std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+                    }else
+                    {
+                        count++;
+                    }
+                }
+                if (count == arrayToDoList.size())
+                {
+                    std::cout << "The task was not found.\n";
+                }
+            }
+            else if (comparisonOperator == "<=")
+            {
+                int count{0};
+                for (auto e : arrayToDoList)
+                {
+                    if ((day + month * 31 + year * 365) >= (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
+                    {
+                        std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+                    }else
+                    {
+                        count++;
+                    }
+                }
+                if (count == arrayToDoList.size())
+                {
+                    std::cout << "The task was not found.\n";
+                }
+            }
+            else if (comparisonOperator == ">=")
+            {
+                int count{0};
+                for (auto e : arrayToDoList)
+                {
+                    if ((day + month * 31 + year * 365) <= (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
+                    {
+                        std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
+                    }else
+                    {
+                        count++;
+                    }
+                }
+                if (count == arrayToDoList.size())
+                {
+                    std::cout << "The task was not found.\n";
+                }
+            }
+            else
+            {
+                std::cout << "You have entered an invalid comparison operator. Enter '=','<','>','<=','>=' or exit to exit the program.\n";
+            }
+        }
     }
 };
 
@@ -286,7 +402,7 @@ int main()
             std::cout << "The wrong command was entered\n";
             showToDoList();
         }
-        std:: cout << "The task has been completed successfully!\n\n";
+        std::cout << "The task has been completed successfully!\n\n";
     };
 
     return 0;
