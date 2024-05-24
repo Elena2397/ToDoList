@@ -9,7 +9,7 @@ struct ToDoList
     int number{};
     std::string name{};
     std::string description{};
-    std::string date{};
+    std::string date{}; 
 };
 
 std::string checkedDate()
