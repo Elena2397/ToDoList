@@ -5,6 +5,7 @@
 #include <regex>
 #include <fstream>
 
+// ToDo: структуру перенести в класс для работы со списком задач
 struct ToDoList
 {
     int number{};
@@ -13,6 +14,7 @@ struct ToDoList
     std::string date{};
 };
 
+// ToDo: Перенести следующие три функции в отдельный utils.cpp
 void readFile(std::vector<ToDoList> &arrayToDoList)
 {
     int id{};
@@ -70,13 +72,14 @@ void writeFile(std::vector<ToDoList> &arrayToDoList)
 
 std::string checkedDate()
 {
+    // ToDo: Добавить проверку на ввод года больше 2999
     std::string dateTask{};
     std::regex regular("([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(2[0-9][0-9][0-9])");
     std::regex regularFeb("([0-2][0-9])/(02)/(2[0-9][0-9][0-9])");
 
     while (true)
     {
-        std::cout << "Enter date task: ";
+        std::cout << "Enter date task: "; //ToDo: Добавить в вывод формат даты для удобства
         std::cin >> dateTask;
 
         if (std::regex_match(dateTask, regular))
@@ -92,7 +95,7 @@ std::string checkedDate()
                     std::cout << "The date is entered incorrectly, else month = 02, then day <=29\n";
                 }
             }
-            break;
+            break; // ToDo: Исправить добавление задачи в случае некорректной даты в феврале (например: 30/02/2023)
         }
         else
         {
@@ -102,8 +105,10 @@ std::string checkedDate()
     return dateTask;
 };
 
+// ToDo: создать класс для работы со списком задач и превратить функции addTaskToDoList, updateTaskToDoList, deleteTaskToDoList, selectTaskToDoList в его методы
 void addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 {
+    // ToDo: Необходимо учитывать удаление файла во время работы программы при не пустом векторе задач
     if (arrayToDoList.size() == 0)
     {
         readFile(arrayToDoList);
@@ -119,7 +124,7 @@ void addTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     std::getline(std::cin >> std::ws, descriptionTask);
     descriptionTask = descriptionTask.substr(0, 255);
 
-    std::string dateTask = checkedDate();
+    std::string dateTask = checkedDate(); // ToDo: Думаю лучше переименовать функцию например в setCheckedDate
 
     int id = arrayToDoList.size();
     id++;
@@ -136,6 +141,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     std::ifstream ToDoList("ToDoList.txt");
     if (ToDoList.is_open() == true)
     {
+        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его)
         while (true)
         {
             std::cout << "Enter the task id to update (if you want to log out, enter: -1): ";
@@ -156,6 +162,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     {
                         while (true)
                         {
+                            // ToDo: descriptiod -> description
                             std::cout << "Enter the name of the field to be changed (name, descriptiod, date). If you want to log out, enter exit: ";
                             std::string nameField{};
                             std::cin >> nameField;
@@ -164,6 +171,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                                 std::cout << "Enter new name task: ";
                                 std::string nameTask{};
                                 std::getline(std::cin >> std::ws, nameTask);
+                                // ToDo: Добавить ограничение по количеству символов на ввод (см. функцию addTaskToDoList)
 
                                 arrayToDoList[i].name = nameTask;
                                 writeFile(arrayToDoList);
@@ -173,6 +181,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                                 std::cout << "Enter new description task: ";
                                 std::string descriptionTask{};
                                 std::getline(std::cin >> std::ws, descriptionTask);
+                                 // ToDo: Добавить ограничение по количеству символов на ввод (см. функцию addTaskToDoList)
 
                                 arrayToDoList[i].description = descriptionTask;
                                 writeFile(arrayToDoList);
@@ -200,7 +209,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                 break;
             }
         }
-        std::cout << "The task has been completed successfully!\n\n";
+        std::cout << "The task has been completed successfully!\n\n"; // ToDo: Не выводить при id = -1 или при отсутствии задачи с введенным id
     }
     else
     {
@@ -215,15 +224,16 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     std::ifstream ToDoList("ToDoList.txt");
     if (ToDoList.is_open() == true)
     {
-
+        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его)
         std::string deleteName{};
-        std::cout << "Enter name for delete(id or name): ";
-        std::getline(std::cin >> std::ws, deleteName);
+        std::cout << "Enter name for delete(id or name): "; // ToDo: Изменить формулировку, например: What should I use to search for a task (enter id or name)?
+        std::getline(std::cin >> std::ws, deleteName); // ToDo: Добавить ограничение по количеству символов на ввод (см. функцию addTaskToDoList)
 
         if (deleteName == "id")
         {
             while (true)
             {
+                // ToDo: Добавить поддержку ввода -1 для выхода
                 std::cout << "Enter id delete task: ";
                 int number{};
                 std::cin >> number;
@@ -296,7 +306,7 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 
                 if (size == arrayToDoList.size())
                 {
-                    std::cout << "There is no such taxi name. Repeat the name or press enter: exit\n";
+                    std::cout << "There is no such taxi name. Repeat the name or press enter: exit\n"; //ToDo: taxi-> task
                 }
                 else
                 {
@@ -304,7 +314,7 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                 }
             }
         }
-        std::cout << "The task has been completed successfully!\n\n";
+        std::cout << "The task has been completed successfully!\n\n"; // ToDo: Не выводить при вводе не соответствующем id или name
     }
     else
     {
@@ -316,7 +326,6 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 
 void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 {
-
     std::ifstream ToDoList("ToDoList.txt");
     if (ToDoList.is_open() == true)
     {
@@ -460,7 +469,7 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 
 void showToDoList()
 {
-    std::cout << "ToDoList\n\n";
+    std::cout << "ToDoList\n\n"; // ToDo: Выводить только при старте программы
     std::cout << "To get started with ToDoLost, select one of the following commands:\n";
     std::cout << "1) add - to add a task\n\n";
     std::cout << "2) update - to update an existing task\n\n";
@@ -472,7 +481,7 @@ void showToDoList()
 int main()
 {
 
-    std::vector<ToDoList> arrayToDoList{};
+    std::vector<ToDoList> arrayToDoList{}; // ToDo: вектор перенести в класс для работы со списком задач
 
     showToDoList();
 
@@ -504,7 +513,7 @@ int main()
         }
         else
         {
-            std::cout << "The wrong command was entered\n";
+            std::cout << "The wrong command was entered\n"; // ToDo: Добавить 'Error:' перед текстом
             showToDoList();
         }
     };
