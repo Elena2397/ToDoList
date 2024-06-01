@@ -92,14 +92,14 @@ std::string checkedDate()
                 }
                 else
                 {
-                    std::cout << "The date is entered incorrectly, else month = 02, then day <=29\n";
+                    std::cout << "The date is entered incorrectly, else month = 02, then day <=29\n"; // ToDo: Добавить 'Error:' перед текстом
                 }
             }
             break; // ToDo: Исправить добавление задачи в случае некорректной даты в феврале (например: 30/02/2023)
         }
         else
         {
-            std::cout << "The date is entered incorrectly, try again (dd/mm/gggg)\n";
+            std::cout << "The date is entered incorrectly, try again (dd/mm/gggg)\n"; // ToDo: Добавить 'Error:' перед текстом
         }
     }
     return dateTask;
@@ -141,7 +141,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     std::ifstream ToDoList("ToDoList.txt");
     if (ToDoList.is_open() == true)
     {
-        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его)
+        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его) и проверять вектор задач
         while (true)
         {
             std::cout << "Enter the task id to update (if you want to log out, enter: -1): ";
@@ -197,7 +197,7 @@ void updateTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                                 break;
                             }
                             else
-                            {
+                            {   // ToDo: Добавить 'Error:' перед текстом
                                 std::cout << "You entered the wrong field name. You need to enter: name, descriptiod, date. If you want to log out, enter exit.\n";
                             }
                         }
@@ -224,7 +224,7 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     std::ifstream ToDoList("ToDoList.txt");
     if (ToDoList.is_open() == true)
     {
-        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его)
+        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его) и проверять вектор задач
         std::string deleteName{};
         std::cout << "Enter name for delete(id or name): "; // ToDo: Изменить формулировку, например: What should I use to search for a task (enter id or name)?
         std::getline(std::cin >> std::ws, deleteName); // ToDo: Добавить ограничение по количеству символов на ввод (см. функцию addTaskToDoList)
@@ -269,7 +269,7 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     break;
                 }
                 else
-                {
+                {   // ToDo: Добавить 'Error:' перед текстом
                     std::cout << "The number is entered incorrectly, an integer value must be entered. TodoList has tasks from 1 to " << arrayToDoList.size() << '\n';
                 }
             }
@@ -305,7 +305,7 @@ void deleteTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                 }
 
                 if (size == arrayToDoList.size())
-                {
+                {   // ToDo: Добавить 'Error:' перед текстом
                     std::cout << "There is no such taxi name. Repeat the name or press enter: exit\n"; //ToDo: taxi-> task
                 }
                 else
@@ -329,9 +329,10 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
     std::ifstream ToDoList("ToDoList.txt");
     if (ToDoList.is_open() == true)
     {
+        // ToDo: Необходимо учесть изменение файла в момент работы программы (перечитывать его) и проверять вектор задач
         while (true)
         {
-            std::cout << "Enter the date and the comparison operator.\n";
+            std::cout << "Enter the date and the comparison operator.\n"; // ToDo: Перенести в соответствующие операторы (для * дата не нужна)
 
             std::cout << "Enter comparison operator ('=','<','>','<=','>=', '* - all tasks', exit): ";
             std::string comparisonOperator{};
@@ -350,6 +351,7 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
             }
             else
             {
+                // ToDo: Исправить захождение в этот блок при вводе не корректной команды
                 std::string dateTask = checkedDate();
 
                 int day = std::stoi(dateTask.substr(0, 2));
@@ -358,9 +360,10 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
 
                 if (comparisonOperator == "=")
                 {
-                    int count{0};
+                    int count{0}; // ToDo: Перейти на bool
                     for (auto e : arrayToDoList)
                     {
+                        // ToDo: Исправить проверку
                         if (year == std::stoi(e.date.substr(6, 4)) && month == std::stoi(e.date.substr(3, 4)) && day == std::stoi(e.date.substr(0, 2)))
                         {
                             std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
@@ -372,14 +375,15 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     }
                     if (count == arrayToDoList.size())
                     {
-                        std::cout << "The task was not found.\n";
+                        std::cout << "The task was not found.\n"; // ToDo: Добавить 'Error:' перед текстом
                     }
                 }
                 else if (comparisonOperator == "<")
                 {
-                    int count{0};
+                    int count{0}; // ToDo: Перейти на bool
                     for (auto e : arrayToDoList)
                     {
+                        // ToDo: Исправить проверку
                         if ((day + month * 31 + year * 365) > (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
                         {
                             std::cout << e.number << ' ' << e.name << ' ' << e.description << ' ' << e.date << '\n';
@@ -391,12 +395,12 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     }
                     if (count == arrayToDoList.size())
                     {
-                        std::cout << "The task was not found.\n";
+                        std::cout << "The task was not found.\n"; // ToDo: Добавить 'Error:' перед текстом
                     }
                 }
                 else if (comparisonOperator == ">")
                 {
-                    int count{0};
+                    int count{0}; // ToDo: Перейти на bool
                     for (auto e : arrayToDoList)
                     {
                         if ((day + month * 31 + year * 365) < (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
@@ -410,12 +414,12 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     }
                     if (count == arrayToDoList.size())
                     {
-                        std::cout << "The task was not found.\n";
+                        std::cout << "The task was not found.\n"; // ToDo: Добавить 'Error:' перед текстом
                     }
                 }
                 else if (comparisonOperator == "<=")
                 {
-                    int count{0};
+                    int count{0}; // ToDo: Перейти на bool
                     for (auto e : arrayToDoList)
                     {
                         if ((day + month * 31 + year * 365) >= (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
@@ -429,12 +433,12 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     }
                     if (count == arrayToDoList.size())
                     {
-                        std::cout << "The task was not found.\n";
+                        std::cout << "The task was not found.\n"; // ToDo: Добавить 'Error:' перед текстом
                     }
                 }
                 else if (comparisonOperator == ">=")
                 {
-                    int count{0};
+                    int count{0}; // ToDo: Перейти на bool
                     for (auto e : arrayToDoList)
                     {
                         if ((day + month * 31 + year * 365) <= (std::stoi(e.date.substr(6, 4)) * 365 + std::stoi(e.date.substr(3, 4)) * 31 + std::stoi(e.date.substr(0, 2))))
@@ -448,11 +452,11 @@ void selectTaskToDoList(std::vector<ToDoList> &arrayToDoList)
                     }
                     if (count == arrayToDoList.size())
                     {
-                        std::cout << "The task was not found.\n";
+                        std::cout << "The task was not found.\n"; // ToDo: Добавить 'Error:' перед текстом
                     }
                 }
                 else
-                {
+                {   // ToDo: Добавить 'Error:' перед текстом
                     std::cout << "You have entered an invalid comparison operator. Enter '=','<','>','<=','>=' or exit to exit the program.\n";
                 }
             }
