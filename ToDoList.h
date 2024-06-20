@@ -1,5 +1,5 @@
-#ifndef CLASSTODOLIST_h
-#define CLASSTODOLIST_h
+#ifndef TODOLIST_h
+#define TODOLIST_h
 
 #include <string>
 #include <vector>
