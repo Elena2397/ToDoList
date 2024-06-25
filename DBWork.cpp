@@ -11,11 +11,11 @@
 
 DBWork::DBWork() : db(new QSqlDatabase(QSqlDatabase::addDatabase("QPSQL")))
 {
-    db->setHostName("localhost");
+    db->setHostName("127.0.0.1");
     db->setPort(5432);
     db->setUserName("postgres");
     db->setPassword("0000");
-    db->setDatabaseName("ToDoList");
+    db->setDatabaseName("todolist");
     db->open() ? std::cout << "Connection DB successfull!\n" : std::cout << "Error: Failed connection DB\n";
 }
 
