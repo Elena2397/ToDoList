@@ -8,4 +8,6 @@ Basic commands:
 5) select - select tasks by data field; 
 6) exit - exit the program and the main commands.
 
+In the future, the addition of a client-server architecture.
+
 Warning: the project is under development.
