@@ -7,3 +7,5 @@ Basic commands:
 4) delete - delete a task by ID or name; 
 5) select - select tasks by data field; 
 6) exit - exit the program and the main commands.
+
+Warning: the project is under development.
